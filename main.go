@@ -128,15 +128,15 @@ func main() {
 
 	nftContract := contract.NewContract(web3.HexToAddress(getNFTAddress(chainID)), getABI(chainID), client)
 	resultgetAttributes, _ := nftContract.Call("_tokenIdToAttributes", web3.Latest, big.NewInt(nftid))
-	matureBirdCost, _ := nftContract.Call("matureBirdCost", web3.Latest, big.NewInt(nftid))
-	maxMatureBirdCost, _ := nftContract.Call("maxMatureBirdCost", web3.Latest, big.NewInt(nftid))
+	matureBirdCost, errMature := nftContract.Call("matureBirdCost", web3.Latest, big.NewInt(nftid))
+	maxMatureBirdCost, errMaxMature := nftContract.Call("maxMatureBirdCost", web3.Latest, big.NewInt(nftid))
 
 	var resultmatureBirdCost string
 	var resultmaxMatureBirdCost string
-	if matureBirdCost["0"] != nil {
+	if matureBirdCost["0"] == nil && strings.Contains(errMature.Error(), "not baby bird") {
 		resultmatureBirdCost = "not baby bird"
 	}
-	if maxMatureBirdCost["0"] != nil {
+	if maxMatureBirdCost["0"] != nil && strings.Contains(errMaxMature.Error(), "not mature bird") {
 		resultmaxMatureBirdCost = "not mature bird"
 	}
 
