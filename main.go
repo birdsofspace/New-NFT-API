@@ -128,17 +128,7 @@ func main() {
 
 	nftContract := contract.NewContract(web3.HexToAddress(getNFTAddress(chainID)), getABI(chainID), client)
 	resultgetAttributes, _ := nftContract.Call("_tokenIdToAttributes", web3.Latest, big.NewInt(nftid))
-	matureBirdCost, errMature := nftContract.Call("matureBirdCost", web3.Latest, big.NewInt(nftid))
-	maxMatureBirdCost, errMaxMature := nftContract.Call("maxMatureBirdCost", web3.Latest, big.NewInt(nftid))
-
-	var resultmatureBirdCost string
-	var resultmaxMatureBirdCost string
-	if matureBirdCost["0"] == nil && strings.Contains(errMature.Error(), "not baby bird") {
-		resultmatureBirdCost = "not baby bird"
-	}
-	if maxMatureBirdCost["0"] != nil && strings.Contains(errMaxMature.Error(), "not mature bird") {
-		resultmaxMatureBirdCost = "not mature bird"
-	}
+	level, _ := nftContract.Call("level", web3.Latest, big.NewInt(nftid))
 
 	var resultImage string
 	var resultAnim string
@@ -146,11 +136,11 @@ func main() {
 
 	switch resultgetAttributes["uniqueAttribute"] {
 	case "Melodic Mirage":
-		if resultmatureBirdCost == "not baby bird" && resultmaxMatureBirdCost == "not mature bird" {
+		if int(level["0"].(uint8)) == 0 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=egg"
 			resultImage = "https://nfthost-a5679.web.app/egg.png"
 			resultVideo = "https://nfthost-a5679.web.app/egg.webm"
-		} else if resultmatureBirdCost != "not baby bird" {
+		} else if int(level["0"].(uint8)) == 1 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=baby_melodic_mirage"
 			resultImage = "https://nfthost-a5679.web.app/swan-b.png"
 			resultVideo = "https://nfthost-a5679.web.app/swan-b.webm"
@@ -160,11 +150,11 @@ func main() {
 			resultVideo = "https://nfthost-a5679.web.app/swan-m.webm"
 		}
 	case "Thunderclap Talons":
-		if resultmatureBirdCost == "not baby bird" && resultmaxMatureBirdCost == "not mature bird" {
+		if int(level["0"].(uint8)) == 0 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=egg"
 			resultImage = "https://nfthost-a5679.web.app/egg.png"
 			resultVideo = "https://nfthost-a5679.web.app/egg.webm"
-		} else if resultmatureBirdCost != "not baby bird" {
+		} else if int(level["0"].(uint8)) == 1 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=baby_thunderclap_talons"
 			resultImage = "https://nfthost-a5679.web.app/golden-eagle-b.png"
 			resultVideo = "https://nfthost-a5679.web.app/golden-eagle-b.webm"
@@ -174,11 +164,11 @@ func main() {
 			resultVideo = "https://nfthost-a5679.web.app/golden-eagle-m.webm"
 		}
 	case "Ethereal Glide":
-		if resultmatureBirdCost == "not baby bird" && resultmaxMatureBirdCost == "not mature bird" {
+		if int(level["0"].(uint8)) == 0 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=egg"
 			resultImage = "https://nfthost-a5679.web.app/egg.png"
 			resultVideo = "https://nfthost-a5679.web.app/egg.webm"
-		} else if resultmatureBirdCost != "not baby bird" {
+		} else if int(level["0"].(uint8)) == 1 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=baby_ethereal_glide"
 			resultImage = "https://nfthost-a5679.web.app/sparrow-b.png"
 			resultVideo = "https://nfthost-a5679.web.app/sparrow-b.webm"
@@ -188,11 +178,11 @@ func main() {
 			resultVideo = "https://nfthost-a5679.web.app/sparrow-m.webm"
 		}
 	case "Sonic Dash":
-		if resultmatureBirdCost == "not baby bird" && resultmaxMatureBirdCost == "not mature bird" {
+		if int(level["0"].(uint8)) == 0 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=egg"
 			resultImage = "https://nfthost-a5679.web.app/egg.png"
 			resultVideo = "https://nfthost-a5679.web.app/egg.webm"
-		} else if resultmatureBirdCost != "not baby bird" {
+		} else if int(level["0"].(uint8)) == 1 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=baby_sonic_dash"
 			resultImage = "https://nfthost-a5679.web.app/cardinal-b.png"
 			resultVideo = "https://nfthost-a5679.web.app/cardinal-b.webm"
@@ -202,11 +192,11 @@ func main() {
 			resultVideo = "https://nfthost-a5679.web.app/cardinal-m.webm"
 		}
 	case "Whirlwind Waltz":
-		if resultmatureBirdCost == "not baby bird" && resultmaxMatureBirdCost == "not mature bird" {
+		if int(level["0"].(uint8)) == 0 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=egg"
 			resultImage = "https://nfthost-a5679.web.app/egg.png"
 			resultVideo = "https://nfthost-a5679.web.app/egg.webm"
-		} else if resultmatureBirdCost != "not baby bird" {
+		} else if int(level["0"].(uint8)) == 1 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=baby_whirlwind_waltz"
 			resultImage = "https://nfthost-a5679.web.app/cockatiel-b.png"
 			resultVideo = "https://nfthost-a5679.web.app/cockatiel-b.webm"
@@ -216,11 +206,11 @@ func main() {
 			resultVideo = "https://nfthost-a5679.web.app/cockatiel-m.webm"
 		}
 	case "Toxic Vortex":
-		if resultmatureBirdCost == "not baby bird" && resultmaxMatureBirdCost == "not mature bird" {
+		if int(level["0"].(uint8)) == 0 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=egg"
 			resultImage = "https://nfthost-a5679.web.app/egg.png"
 			resultVideo = "https://nfthost-a5679.web.app/egg.webm"
-		} else if resultmatureBirdCost != "not baby bird" {
+		} else if int(level["0"].(uint8)) == 1 {
 			resultAnim = "https://prod-api-central.birdsofspace.com/my.nft/?bird_name=baby_toxic_vortex"
 			resultImage = "https://nfthost-a5679.web.app/vulture-b.png"
 			resultVideo = "https://nfthost-a5679.web.app/vulture-b.webm"
